@@ -1,0 +1,63 @@
+{
+  "name": "dynamic-island-public",
+  "productName": "Dynamic Island",
+  "version": "1.1.1",
+  "description": "Dynamic Island para Windows: música, recordatorio de agua, rendimiento del equipo y temporizador de enfoque.",
+  "main": "src/main/main.js",
+  "author": "Dynamic Island",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "hashes": "node scripts/gen-hashes.js",
+    "predist": "node scripts/gen-hashes.js",
+    "dist": "electron-builder --win nsis",
+    "predist:portable": "node scripts/gen-hashes.js",
+    "dist:portable": "electron-builder --win portable",
+    "check:i18n": "node scripts/check-i18n.js",
+    "test:security": "node scripts/security-test.js"
+  },
+  "devDependencies": {
+    "electron": "^45.3.4",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "com.dynamicisland.public",
+    "productName": "Dynamic Island",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "src/main/bridge.ps1",
+      "src/main/perf.ps1"
+    ],
+    "electronFuses": {
+      "runAsNode": false,
+      "enableNodeOptionsEnvironmentVariable": false,
+      "enableNodeCliInspectArguments": false,
+      "enableEmbeddedAsarIntegrityValidation": true,
+      "onlyLoadAppFromAsar": true,
+      "enableCookieEncryption": true,
+      "grantFileProtocolExtraPrivileges": true
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
+  },
+  "allowScripts": {
+    "electron@45.3.4": true
+  }
+}
